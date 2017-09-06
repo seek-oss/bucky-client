@@ -1,5 +1,5 @@
 {
-  "name": "bucky",
+  "name": "ca-bucky-client",
   "version": "0.2.8",
   "description": "Collect performance data from the client and node",
   "main": "./bucky.js",
