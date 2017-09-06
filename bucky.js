@@ -1,6 +1,7 @@
 (function() {
   var XMLHttpRequest, exportDef, extend, initTime, isServer, log, now,
-    __slice = [].slice;
+    __slice = [].slice,
+    __hasProp = {}.hasOwnProperty;
 
   isServer = (typeof module !== "undefined" && module !== null) && (typeof window === "undefined" || window === null);
 
@@ -58,7 +59,8 @@
       decimalPrecision: 3,
       sendLatency: false,
       sample: 1,
-      active: true
+      active: true,
+      extraHeaders: {}
     };
     tagOptions = {};
     if (!isServer) {
@@ -156,7 +158,7 @@
       }
     };
     makeRequest = function(data) {
-      var body, corsSupport, match, name, origin, req, sameOrigin, sendStart, val, _ref3;
+      var body, corsSupport, match, name, origin, req, sameOrigin, sendStart, val, value, _ref3, _ref4;
       corsSupport = isServer || (window.XMLHttpRequest && (window.XMLHttpRequest.defake || 'withCredentials' in new window.XMLHttpRequest()));
       if (isServer) {
         sameOrigin = true;
@@ -189,6 +191,12 @@
       };
       req.open('POST', "" + options.host + "/v1/send", true);
       req.setRequestHeader('Content-Type', 'text/plain');
+      _ref4 = options.extraHeaders;
+      for (key in _ref4) {
+        if (!__hasProp.call(_ref4, key)) continue;
+        value = _ref4[key];
+        req.setRequestHeader(key, value);
+      }
       req.addEventListener('load', function() {
         return updateLatency(now() - sendStart);
       }, false);

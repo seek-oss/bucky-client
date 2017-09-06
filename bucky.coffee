@@ -64,6 +64,9 @@ exportDef = ->
     # Set to false to disable sends (in dev mode for example)
     active: true
 
+    # Set extra headers to be sent (key value pairs e.g. { testHeader: 'headerValue', 'Content-Type': 'text/plain' } )
+    extraHeaders: {}
+
   tagOptions = {}
   if not isServer
     $tag = document.querySelector?('[data-bucky-host],[data-bucky-page],[data-bucky-requests]')
@@ -201,6 +204,9 @@ exportDef = ->
     req.open 'POST', "#{ options.host }/v1/send", true
 
     req.setRequestHeader 'Content-Type', 'text/plain'
+
+    for own key, value of options.extraHeaders
+      req.setRequestHeader key, value
 
     req.addEventListener 'load', ->
       updateLatency(now() - sendStart)
