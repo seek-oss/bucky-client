@@ -69,7 +69,7 @@ exportDef = ->
 
   tagOptions = {}
   if not isServer
-    $tag = (typeof document != "undefined" && document && document.querySelector) ?('[data-bucky-host],[data-bucky-page],[data-bucky-requests]')
+    $tag = if (typeof document != "undefined" && document && document.querySelector) then ('[data-bucky-host],[data-bucky-page],[data-bucky-requests]')  else null
     if $tag
       tagOptions = {
         host: $tag.getAttribute('data-bucky-host')
